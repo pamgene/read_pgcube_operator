@@ -1,50 +1,20 @@
-# Template R operator
-
-The `Template R operator` is a template repository for the creation of R operators in Tercen. An overview of steps for developing an operator are:
-
-1. create a github repo
-2. install tercen_studio
-3. login to tercen_studio
-4. git clone the newly created repo
-5. start developing in R in tercen_studio
-6. add R packages to the repo
-7. push to the github repo
-8. go to tercen and install the operator
-
-More information can be found in [Tercen app builder's guide](https://tercen.github.io/appbuilders-guide/).
-
-Below is the operator README standard structure:
+# Read Pamgen Cube operator
 
 ##### Description
 
-The `Template R operator` is a template repository for the creation of R operators in Tercen.
+`read_pgcube` operator transforms a Pamgene Cube file (RData format) to Tercen datasets.
 
 ##### Usage
 
 Input projection|.
 ---|---
-`x-axis`        | type, description 
-`y-axis`        | type, description 
-`row`           | type, description 
-`column`        | type, description 
-`colors`        | type, description 
-`labels`        | type, description 
+`documentId`        | is the documentId (document can be a single Cube file, or a zipped set of Cube files)
 
-Input parameters|.
----|---
-`input_var`        | parameter description
 
 Output relations|.
 ---|---
-`output_var`        | output relation
-`Operator view`        | view of the Shiny application
+`filename`          | character, the name of the Cube file
 
 ##### Details
 
-Details on the computation.
-
-##### See Also
-
-[template_shiny_operator](https://github.com/tercen/template_shiny_operator)
-, [template_docker_operator](https://github.com/tercen/template_docker_operator)
-
+The operator transforms Pamgene Cube files (RData format) into Tercen table. If the document is a ZIP file containing a set of Cube files, the operator extracts the Cube files and transforms them into Tercen table.
