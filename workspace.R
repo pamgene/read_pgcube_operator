@@ -2,13 +2,6 @@ library(tercen)
 library(dplyr)
 library(tools)
 
-#https://tercen.com/pamgene/w/d877ec095044016afb82595652ad990e/ds/47a4753b-2902-42a1-9d29-9284b633309f
-options("tercen.serviceUri"="https://tercen.com/")
-options("tercen.username"= "ginberg")
-options("tercen.password"= 'w:~9u203-@,uL[zi5q{!N_$uN+_"R:y6FSmZ&6`mujgTE/]=')
-options("tercen.workflowId"= "d877ec095044016afb82595652ad990e")
-options("tercen.stepId"= "47a4753b-2902-42a1-9d29-9284b633309f")
-
 # loads an RData file, and returns it
 loadRData <- function(fileName) {
   load(fileName)
@@ -16,13 +9,18 @@ loadRData <- function(fileName) {
 }
 
 cube_to_data = function(filename) {
-  data <- loadRData(filename)
+  data <- try(loadRData(filename), silent = TRUE)
+  
+  if (class(data) == "try-error") {
+    stop("File can't be loaded, please check that it's available and it has the right format (Rdata).")
+  }
  
   data %>%
     select(-c(sids, rowSeq, colSeq)) %>%
     mutate_if(is.logical, as.character) %>%
     mutate_if(is.integer, as.double) %>%
-    mutate(.ci = rep_len(0, nrow(.)))
+    mutate(.ci = rep_len(0, nrow(.))) %>%
+    mutate(filename = rep_len(basename(filename), nrow(.)))
 }
 
 ctx = tercenCtx()

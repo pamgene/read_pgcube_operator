@@ -9,13 +9,18 @@ loadRData <- function(fileName) {
 }
 
 cube_to_data = function(filename) {
-  data <- loadRData(filename)
+  data <- try(loadRData(filename), silent = TRUE)
+  
+  if (class(data) == "try-error") {
+    stop("File can't be loaded, please check that it's available and it has the right format (Rdata).")
+  }
   
   data %>%
     select(-c(sids, rowSeq, colSeq)) %>%
     mutate_if(is.logical, as.character) %>%
     mutate_if(is.integer, as.double) %>%
-    mutate(.ci = rep_len(0, nrow(.)))
+    mutate(.ci = rep_len(0, nrow(.))) %>%
+    mutate(filename = rep_len(basename(filename), nrow(.)))
 }
 
 ctx = tercenCtx()
