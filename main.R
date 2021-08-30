@@ -1,6 +1,7 @@
 library(tercen)
 library(dplyr)
 library(tools)
+library(tidyr)
 
 # loads an RData file, and returns it
 loadRData <- function(fileName) {
@@ -8,15 +9,23 @@ loadRData <- function(fileName) {
   get(ls()[ls() != "fileName"])
 }
 
-cube_to_data = function(filename) {
+cube_to_data = function(filename, separateQT) {
   data <- try(loadRData(filename), silent = TRUE)
   
   if (class(data) == "try-error") {
     stop("File can't be loaded, please check that it's available and it has the right format (Rdata).")
   }
   
+  data <- data %>%
+    select(-c(rowSeq, colSeq)) 
+  
+  if (separateQT) {
+    data <- data %>% 
+      pivot_wider(names_from = "QuantitationType", values_from = "value") 
+  }
+  
   data %>%
-    select(-c(sids, rowSeq, colSeq)) %>%
+    select(-sids) %>%
     mutate_if(is.logical, as.character) %>%
     mutate_if(is.integer, as.double) %>%
     mutate(.ci = rep_len(0, nrow(.))) %>%
@@ -26,6 +35,9 @@ cube_to_data = function(filename) {
 ctx = tercenCtx()
 
 if (!any(ctx$cnames == "documentId")) stop("Column factor documentId is required")
+
+# properties
+separateQT <- ifelse(is.null(ctx$op.value('separateQT')), TRUE, as.logical(ctx$op.value('separateQT')))
 
 # extract files
 df <- ctx$cselect()
@@ -51,7 +63,7 @@ task = ctx$task
 # import files in Tercen
 f.names %>%
   lapply(function(filename){
-    data = cube_to_data(filename)
+    data = cube_to_data(filename, separateQT)
     if (!is.null(task)) {
       # task is null when run from RStudio
       actual = get("actual",  envir = .GlobalEnv) + 1
