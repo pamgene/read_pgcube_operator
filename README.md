@@ -10,6 +10,9 @@ Input projection|.
 ---|---
 `documentId`        | is the documentId (document can be a single Cube file, or a zipped set of Cube files)
 
+Input parameters|.
+---|---
+`separateQT`   | Boolean parameter: if set, each quantitation type will have its own column (wide format). Otherwise the format will be long. Default value is true.
 
 Output relations|.
 ---|---
