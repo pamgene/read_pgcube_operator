@@ -1,6 +1,6 @@
 {
-  "name": "BN Crosstab",
-  "description": "Import a Pamgene Cube file.",
+  "name": "Cube",
+  "description": "Import a PamGene Cube file.",
   "tags": ["import", "pamgene", "cube"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/read_pgcube_operator"],
