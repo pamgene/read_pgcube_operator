@@ -1,0 +1,9 @@
+{
+  "kind": "OperatorUnitTest",
+  "name": "test",
+  "namespace": "ds0",
+  "inputFileUris": ["aCubeDump.zip"],
+  "inputDataUri": "input.csv",
+  "outputDataUri": ["table1.csv", "table2.csv"],
+  "columns": ["documentId"]
+}
