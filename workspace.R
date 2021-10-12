@@ -27,8 +27,10 @@ cube_to_data = function(filename, separateQT) {
   data %>%
     select(-sids) %>%
     mutate_if(is.logical, as.character) %>%
+    mutate_if(is.factor, as.character) %>%
     mutate_if(is.integer, as.double) %>%
     mutate(.ci = rep_len(0, nrow(.))) %>%
+    mutate_if(is.character, function(x) { iconv(x, "UTF-8", "UTF-8", sub='') }) %>%
     mutate(filename = rep_len(basename(filename), nrow(.)))
 }
 
