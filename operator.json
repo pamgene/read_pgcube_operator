@@ -3,13 +3,13 @@
   "description": "Import a PamGene Cube file.",
   "tags": ["import", "pamgene", "cube"],
   "authors": ["tercen"],
-  "urls": ["https://github.com/tercen/read_pgcube_operator"],
+  "urls": ["https://github.com/pamgene/read_pgcube_operator"],
   "properties": [
     {
-    "kind": "BooleanProperty",
-    "name": "separateQT",
-    "defaultValue": true,
-    "description": "If set, each quantitation type will have its own column."
+      "kind": "BooleanProperty",
+      "name": "separateQT",
+      "defaultValue": true,
+      "description": "If set, each quantitation type will have its own column."
     }
   ]
 }
